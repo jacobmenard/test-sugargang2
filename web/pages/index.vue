@@ -1,11 +1,16 @@
 <template>
   
   <div class="product-main-container">
+    
     <product-list>
       <template #header>
-
-        <b-button variant="primary" class="my-3" @click="addProduct()">New entry</b-button>
-
+        <div class="d-flex justify-content-between align-items-center">
+          <b-button variant="primary" class="my-3" @click="addProduct()">New entry</b-button>
+          <div class="d-flex" style="gap: 10px;">
+            <b-input v-model="search"></b-input>
+            <b-button variant="primary" @click="getProducts(search)">Search</b-button>
+          </div>
+        </div>
         <b-row class="py-2 border">
           <b-col lg="1" class="text-center"><span>ID</span></b-col>
           <b-col lg="1" class="text-center"><span>SKU</span></b-col>
@@ -32,6 +37,12 @@
 
         </b-row>
 
+      </template>
+
+      <template #pagination> 
+        <b-button class="pagination-button" variant="primary" v-for="page in pagination" :key="page" :disabled="page.active" @click="getProductsPerPage(page)" v-html="page.label">
+        
+        </b-button>
       </template>
     </product-list>
 
@@ -105,6 +116,10 @@
       }
     }
   }
+
+  .pagination-button {
+    padding: 5px 10px;
+  }
 </style>
 
 <script>
@@ -119,15 +134,26 @@ export default {
       isOpenEdit: false,
       isUpdate: false,
       product: {},
-      productIdx: null
+      productIdx: null,
+      pagination: [],
+      search: ''
     }
   },
 
   methods: {
+    async getProductsPerPage(page) {
+      if (page.url) {
+          await products.perPage({search: this.search, url: page.url}).then((res) => {
+          this.products = res.data.data
+          this.pagination = res.data.links
+        })
+      }
+    },
+
     async getProducts(search) {
       await products.all({search: search}).then((res) => {
         this.products = res.data.data
-        console.log(this.products)
+        this.pagination = res.data.links
       })
     },
 
@@ -167,9 +193,11 @@ export default {
         
       } else {
         await products.add(product).then((res) => {
-          this.products.push(res.data.data)
-          this.products.sort((a, b) => b.id - a.id );
+          // this.products.push(res.data.data)
+          // this.products.sort((a, b) => b.id - a.id );
+          this.getProducts()
         })
+
       }
     },
 

@@ -1,5 +1,5 @@
-/* #version=0.0.0-3#5 default 2023-05-10T21:45:22 16B38467B5FB0AA4 */
-/* #version=0.0.0-3#4 default 2023-05-10T21:44:44 9CADE6C264A800B6 */
+/* #version=0.0.0-3#12 default 2023-05-11T01:40:56 28343DD5ADD576D3 */
+/* #version=0.0.0-3#11 default 2023-05-11T01:37:07 494E9C87E8F6C103 */
 import api from '~/services/apis'
 
 export default {
@@ -9,6 +9,11 @@ export default {
         return await api.get(url, {params: payload})
     },
 
+    async perPage(payload) {
+        let url = `${payload.url}${payload.search ? `&search=${payload.search}` : ''}`
+        return await api.get(url)
+    },
+-
     async delete(productId) {
         let url = `api/v1/product-list/${productId}`
         return await api.delete(url)

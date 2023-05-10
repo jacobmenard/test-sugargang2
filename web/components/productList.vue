@@ -6,7 +6,7 @@
             <slot name="body"></slot>
         </div>
 
-        <div class="pagination-container d-flex justify-content-end">
+        <div class="pagination-container d-flex justify-content-center my-3" style="gap: 10px;">
             <slot name="pagination"></slot>
         </div>
     </div>

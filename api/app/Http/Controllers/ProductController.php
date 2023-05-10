@@ -20,7 +20,7 @@ class ProductController extends Controller
                             ->where('title', 'like', '%'. $request->search . '%')
                             ->orderBy('title', 'asc');
 
-        return $products->paginate(1);
+        return $products->paginate(10);
 
     }
 

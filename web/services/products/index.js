@@ -13,7 +13,7 @@ export default {
         let url = `${payload.url}${payload.search ? `&search=${payload.search}` : ''}`
         return await api.get(url)
     },
--
+
     async delete(productId) {
         let url = `api/v1/product-list/${productId}`
         return await api.delete(url)

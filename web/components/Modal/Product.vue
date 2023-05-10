@@ -6,6 +6,10 @@
                 <b-col>
                     <!-- <b-form @submit="onSubmit" @reset="onReset"> -->
                     <b-form @submit.prevent="saveInformation">
+                        <b-form-group label="SKU">
+                            <b-form-input v-model="productData.sku" placeholder="Enter title" required></b-form-input>
+                        </b-form-group>
+
                         <b-form-group label="Title">
                             <b-form-input v-model="productData.title" placeholder="Enter title" required></b-form-input>
                         </b-form-group>
